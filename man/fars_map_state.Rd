@@ -37,8 +37,8 @@ The FARS data can be found at the National Highway Traffic Safety Association
      These files need to be in your working directory for this function to work correctly.
 }
 \examples{
-fars_map_state(1,2015)
-fars_map_state(6,2013)
+\dontrun{fars_map_state(1,2015)}
+\dontrun{fars_map_state(6,2013)}
 
 }
 

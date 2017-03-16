@@ -30,10 +30,10 @@ Data for 2013-2015 are included in the distribution of this package in the \code
      \code{system.file('extdata','accident_2013.csv.bz2',package = 'FARScoursera')}
 }
 \examples{
-fars_read('accident_2013.csv.bz2')
+\dontrun{fars_read('accident_2013.csv.bz2')}
 fars_read(system.file('extdata','accident_2013.csv.bz2',package = 'FARScoursera'))
-fars_read(make_filename(2013))
-fars_read('not_a_valid_file') #shows the expected errors
+\dontrun{fars_read(make_filename(2013)}
+\dontrun{fars_read('not_a_valid_file')} #shows the expected errors
 
 }
 \seealso{

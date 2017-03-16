@@ -28,8 +28,8 @@ The FARS data can be found at the National Highway Traffic Safety Association
      These files need to be in your working directory for this function to work correctly.
 }
 \examples{
-fars_summarize_years(c('2013','2014'))
-fars_summarize_years(2013:2014)
+\dontrun{fars_summarize_years(c('2013','2014'))}
+\dontrun{fars_summarize_years(2013:2014)}
 
 }
 

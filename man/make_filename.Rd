@@ -13,7 +13,8 @@ throw an error}
 }
 \value{
 This function returns a string of the form 'accident_YEAR.csv.bz2', with YEAR replaced
-by whatever is passed by \code{year}.  A string is returned so long as \code{year} can be coerced
+by whatever is passed by \code{year}.  A string is returned, although
+a warning is givin if \code{year} cannot be coerced
 to an integer, even though that may not form a valid filename.  No path is prepended
 }
 \description{
@@ -25,8 +26,8 @@ that the file of the name created by this function exists
 \examples{
 make_filename(2013)
 make_filename('2014')
-fars_read(make_filename(2013))
-make_filename(12345) # still returns a filename, but the file does not exist
+\dontrun{fars_read(make_filename(2013))}
+\dontrun{make_filename(12345)} # still returns a filename, but the file does not exist
 
 }
 \seealso{

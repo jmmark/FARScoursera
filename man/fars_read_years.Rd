@@ -33,9 +33,9 @@ The FARS data can be found at the National Highway Traffic Safety Association
      These files need to be in your working directory for this function to work correctly.
 }
 \examples{
-fars_read_years(2013:2015))
-fars_read_years(c('2013','2014','2015'))
-fars_read_years(2012:2016) # shows effect of invalid years in input
+\dontrun{fars_read_years(2013:2015)}
+\dontrun{fars_read_years(c('2013','2014','2015'))}
+\dontrun{fars_read_years(2012:2016)} # shows effect of invalid years in input
 
 }
 \seealso{
