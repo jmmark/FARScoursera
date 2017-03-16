@@ -2,12 +2,12 @@ Package: FARScoursera
 Type: Package
 Title: NHTSA FARS Data Interaction Package
 Version: 0.1.0
-Author: Jake Markman
-Maintainer: jmmarkman@gmail.com
+Author: Jake Markman <jmmarkman@gmail.com>
+Maintainer: Jake Markman <jmmarkman@gmail.com>
 Description: This package is submitted as part of an assignment for the 
     Advanced R Programmin class on Coursera.  It is a series of functions to
     interact with and present data from the FARS database from the NHTSA
-License: Creative Commons
+License: CC0
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 5.0.1
