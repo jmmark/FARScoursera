@@ -1,12 +1,18 @@
 Package: FARScoursera
 Type: Package
-Title: What the Package Does (Title Case)
+Title: NHTSA FARS Data Interaction Package
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Jake Markman
+Maintainer: jmmarkman@gmail.com
+Description: This package is submitted as part of an assignment for the 
+    Advanced R Programmin class on Coursera.  It is a series of functions to
+    interact with and present data from the FARS database from the NHTSA
+License: Creative Commons
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 5.0.1
+Imports: dplyr,
+    graphics,
+    maps,
+    readr,
+    tidyr

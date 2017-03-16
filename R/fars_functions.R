@@ -27,6 +27,8 @@
 #'
 #' @seealso \code{\link{make_filename}} for convenient creation of valid \code{filename} input
 #'
+#' @importFrom readr read_csv
+#' @importFrom dplyr tbl_df
 #'
 #' @export
 fars_read <- function(filename) {
@@ -101,7 +103,7 @@ make_filename <- function(year) {
 #' fars_read_years(c('2013','2014','2015'))
 #' fars_read_years(2012:2016) # shows effect of invalid years in input
 #'
-#' @importFrom dplyr %>%
+#' @importFrom dplyr mutate select %>%
 #'
 #' @seealso \code{\link{fars_read}}
 #'
@@ -142,7 +144,8 @@ fars_read_years <- function(years) {
 #' fars_summarize_years(c('2013','2014'))
 #' fars_summarize_years(2013:2014)
 #'
-#' @importFrom dplyr %>%
+#' @importFrom dplyr bind_rows group_by summarize %>%
+#' @importFrom tidyr spread
 #'
 #' @export
 fars_summarize_years <- function(years) {
@@ -184,6 +187,9 @@ fars_summarize_years <- function(years) {
 #' fars_map_state(1,2015)
 #' fars_map_state(6,2013)
 #'
+#' @importFrom dplyr filter
+#' @importFrom maps map
+#' @importFrom graphics points
 #'
 #' @export
 fars_map_state <- function(state.num, year) {
