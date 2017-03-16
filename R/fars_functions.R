@@ -20,10 +20,10 @@
 #'      \code{system.file('extdata','accident_2013.csv.bz2',package = 'FARScoursera')}
 #'
 #' @examples
-#' fars_read('accident_2013.csv.bz2')
+#' \dontrun{fars_read('accident_2013.csv.bz2')}
 #' fars_read(system.file('extdata','accident_2013.csv.bz2',package = 'FARScoursera'))
-#' fars_read(make_filename(2013))
-#' fars_read('not_a_valid_file') #shows the expected errors
+#' \dontrun{fars_read(make_filename(2013)}
+#' \dontrun{fars_read('not_a_valid_file')} #shows the expected errors
 #'
 #' @seealso \code{\link{make_filename}} for convenient creation of valid \code{filename} input
 #'
@@ -62,8 +62,8 @@ fars_read <- function(filename) {
 #' @examples
 #' make_filename(2013)
 #' make_filename('2014')
-#' fars_read(make_filename(2013))
-#' make_filename(12345) # still returns a filename, but the file does not exist
+#' \dontrun{fars_read(make_filename(2013))}
+#' \dontrun{make_filename(12345)} # still returns a filename, but the file does not exist
 #'
 #' @seealso \code{\link{fars_read}} To easily load the file named in the returned string
 #'
@@ -99,9 +99,9 @@ make_filename <- function(year) {
 #'      These files need to be in your working directory for this function to work correctly.
 #'
 #' @examples
-#' fars_read_years(2013:2015))
-#' fars_read_years(c('2013','2014','2015'))
-#' fars_read_years(2012:2016) # shows effect of invalid years in input
+#' \dontrun{fars_read_years(2013:2015)}
+#' \dontrun{fars_read_years(c('2013','2014','2015'))}
+#' \dontrun{fars_read_years(2012:2016)} # shows effect of invalid years in input
 #'
 #' @importFrom dplyr mutate select %>%
 #'
@@ -141,8 +141,8 @@ fars_read_years <- function(years) {
 #'      These files need to be in your working directory for this function to work correctly.
 #'
 #' @examples
-#' fars_summarize_years(c('2013','2014'))
-#' fars_summarize_years(2013:2014)
+#' \dontrun{fars_summarize_years(c('2013','2014'))}
+#' \dontrun{fars_summarize_years(2013:2014)}
 #'
 #' @importFrom dplyr bind_rows group_by summarize %>%
 #' @importFrom tidyr spread
@@ -184,8 +184,8 @@ fars_summarize_years <- function(years) {
 #'      These files need to be in your working directory for this function to work correctly.
 #'
 #' @examples
-#' fars_map_state(1,2015)
-#' fars_map_state(6,2013)
+#' \dontrun{fars_map_state(1,2015)}
+#' \dontrun{fars_map_state(6,2013)}
 #'
 #' @importFrom dplyr filter
 #' @importFrom maps map
