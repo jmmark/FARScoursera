@@ -15,4 +15,8 @@ Imports: dplyr,
     graphics,
     maps,
     readr,
-    tidyr
+    tidyr,
+    utils
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr

@@ -17,7 +17,7 @@ This function returns a dplyr tibble containing the data.  If \code{filename} is
 }
 \description{
 A function for loading the FARS data as specified by \code{filename}.
-If \code{filename} exists it returns the data as a dplyr \code{\link{dplyr::tbl_df}}.  If it
+If \code{filename} exists it returns the data as a dplyr \code{tbl_df}.  If it
 does not exist, it stops with an error.
 }
 \details{

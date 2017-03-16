@@ -1,7 +1,11 @@
+# avoid R CMD notes on non-binding notes for column header names:
+utils::globalVariables(c('STATE','MONTH','year','n'))
+# this is necessary given the way dplyr functions address data
+
 #' Load a file from the FARS database
 #'
 #' A function for loading the FARS data as specified by \code{filename}.
-#' If \code{filename} exists it returns the data as a dplyr \code{\link{dplyr::tbl_df}}.  If it
+#' If \code{filename} exists it returns the data as a dplyr \code{tbl_df}.  If it
 #' does not exist, it stops with an error.
 #'
 #' @param filename A string containing the filename to be read from the FARS data.
