@@ -14,7 +14,6 @@ RoxygenNote: 5.0.1
 Depends: maps
 Imports: dplyr,
     graphics,
-    maps,
     readr,
     tidyr,
     utils
