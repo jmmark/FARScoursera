@@ -1,6 +1,6 @@
 ---
-title: "Vignette Title"
-author: "Vignette Author"
+title: "Using FARScoursera"
+author: "Jake Markman"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -8,51 +8,179 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+  
+## Welcome to FARScoursera!  
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+This package is submitted as the final assignment for the Building R Packages class
+in the Advanced R Programming specialization offered on Coursera.  
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+The functions in the package were authored by the course professors and
+administrators, while documentation, raw data, and associated package building was provided
+by the students.  
 
-## Vignette Info
+FARScoursera itself, as a package, is quite simple (as building i it is a teaching tool).  It provides a suite 
+of functions for interacting with the [FARS](https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars) 
+database from the [NHTSA](https://www.nhtsa.gov/).  See the documentation in those sites for information as to the data in 
+the files themselves.  
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+The package includes three years of the FARS data in the `extdata` directory, as well as functions to help
+load and analyze the data.  
 
-## Styles
+This vignette has sections for each of the five exported functions, as well as one each
+for copying the FARS files to the working directory and removing them
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+### Contents  
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
+1.  [Copy FARS data to working directory](#copy)  
+2.  [fars_read](#fr)  
+3.  [make_filename](#mknm)  
+4.  [fars_read_years](#fry)  
+5.  [fars_summarize_years](#fsy)  
+6.  [fars_map_state](#fms)  
+7.  [Remove FARS data from the working directory](#delete)
 
-## Figures
+### <a name="copy"></a> Copy FARS data to working directory  
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+The functions below assume that the FARS data is already in your working directory.  You can 
+download the data yourself from [FARS](https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars),
+however the three years 2013-2015 are included with the package.  To get them into the working directory try the following:  
 
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+```{r}
+# we need the package, of course:
+library(FARScoursera)
+
+wd_path <- getwd()
+data_path <- system.file('extdata', package = 'FARScoursera')
+years <- 2013:2015
+
+for(y in years) {
+    file.copy(paste0(data_path,'/',make_filename(y)),wd_path, overwrite = TRUE)
+}
+```  
+Now we are ready to proceed.  Be sure to remove the files from the working directory if necessary.  
+
+### <a name="fr"></a> fars_read  
+
+`fars_read` is a function that makes it easy to load the FARS data in as a tbl_df.  It takes a single
+argument, the filename, as a string.  If the filename does not exist, it throws an error.  The 
+`make_filename` function is handy for easily referring to the correct file.  
+
+
+```{r error=TRUE}
+
+fars2013 <- fars_read(make_filename(2013))
+
+fars2013
+
+#as an example for an error:
+
+fars_read('nofilehere')
+
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+### <a name="mknm"></a> make_filename  
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
+`make_filename` is a function for returning the correct name of a file for a given year. 
+It takes a single input, year, the four-digit year of the file (which can be either a number or a string). 
+The function will return the filename, regardless of whether the file exists.  Correct filenames are of the 
+form `accident_YYYY.csv.bz2`, where `YYYY` is the four-digit year.
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
+If the input cannot be coerced to an integer, a string is still returned, although a warning is shown.  
 
-## More Examples
+```{r error=TRUE}
 
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
+make_filename(2013)
 
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+# no check on whether the file exists
+make_filename(12345)
+
+# input not coerceable to string
+make_filename('obvious_mistake')
 ```
 
-Also a quote using `>`:
+### <a name="fry"></a> fars_read_years  
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+`fars_read_years` takes a single input, a vector of `years`, and returns a list of dplyr tibbles containting the
+FARS data for that year.  The tibble contians only the month of the accident and the year in the
+format of the `years` vector.  This is primarily a helper function for
+`fars_summarize_years` as much of the data contained in the files is lost.
+
+Any component of `years` which does not correspond to a valid filename will produce a warning, but a list
+will still be returned, with NULL in position for each invalid component.  
+
+```{r error = TRUE}
+
+list_years <- fars_read_years(2013:2015)
+list_years[[1]]
+
+# an example of a bad entry in years
+list_years <- fars_read_years(c('2013','a','2014'))
+list_years[[2]]
+```
+
+### <a name="fsy"></a> fars_summarize_years  
+
+`fars_summarize_years` is a quick function for exploring accident trends over time. 
+This function returns a dplyr tibble with the month in rows and the year in columns.
+The entries are the total number of accidents in that year / month.  
+
+`fars_summarize_years` takes a single parameter, `years`, a vector of years as in 
+`fars_read_years`.  
+
+If any entry in `years` does not result in a valid file, what is returned will be changed--
+the tables are still returned as in `fars_read_years`, but the final combination is not performed.  
+
+```{r errpr = TRUE}
+
+fars_summarize_years(2013:2015)
+
+# bad entry in a single year
+fars_read_years(c('2013','a','2014'))
+
+# no good years provided at all
+fars_read_years(13:15)
+
+```
+
+
+### <a name="fms"></a> fars_map_states  
+
+`fars_map_state` is a function which graphically summarizes the data by plotting 
+the locations of individual accidents on a map of the given state for the given year.
+
+The function takes two inputs, `state.num` and `year`.  
+
+*   `state.num` is a A scalar of a type that can be coerced to an integer of the integer identifier of the state.
+A list of the state identifying integers for the FARS data can be found [here](https://crashstats.nhtsa.dot.gov/#/DocumentTypeList/4)  
+*   `year` is a four-digit year identifier of a type that can be coerced to integer as in the other functions in this package.  
+
+If either `state.num` or `year` do not refer to valid states or years, respectively, in the data, an error is thrown.  
+
+
+```{r error = TRUE}
+
+fars_map_state(1,2015)
+
+fars_map_state(6,2013)
+
+# an example of a bad state code
+fars_map_state(99, 2013)
+
+# an example of an unavailable year
+fars_map_state(1, 2019)
+
+```
+
+### <a name="delete"></a> Remove FARS data from the working directory  
+
+As a final step, we will remove the files we copied into the working directory:  
+
+```{r}
+wd_path <- getwd()
+years <- 2013:2015
+
+for(y in years) {
+    file.remove(paste0(wd_path,'/',make_filename(y)))
+}
+
+```
